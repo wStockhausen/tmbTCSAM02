@@ -1,0 +1,18 @@
+#####################################################################
+#TCSAM02 19F.01: 2019 data
+#####################################################################
+M19F01.Data.Bio.Info.inp 			#biological info file
+4   #number of fishery data files
+M19F01.Data.2019.Fishery.TCF.inp 		     #2019 data file for tanner crab fishery  (TCF)
+M19F01.Data.2019.Fishery.SCF.inp 		     #2019 data file for snow crab fishery    (SCF) 
+M19F01.Data.2019.Fishery.GTF.inp             #2019 data file for (combined) groundfish fisheries (GTF) 
+M19F01.Data.2019.Fishery.RKF.inp 		     #2019 data file for BBRKC fishery        (RKF) 
+3   #number of survey data files
+M19F03.Data.2019.Survey.NMFS_0.NotFit.inp    #data file for NMFS trawl survey (base configuration; not included in likelihood)
+M19F03.Data.2019.Survey.NMFS_M.inp           #data file for NMFS trawl survey for males without maturity info
+M19F03.Data.2019.Survey.NMFS_F.inp           #data file for NMFS trawl survey for females with maturity info
+1   #number of growth datasets
+M19F01.Data.2019.Growth.EBS.inp              #data file for EBS growth data
+0    #number of chela height datasets
+1   #number of maturity ogive datasets
+M19F02.Data.2019.Survey.NMFS.MaleMaturityOgives.inp   #male maturity data from NMFS_0 (included in likelihood)

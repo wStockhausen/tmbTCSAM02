@@ -1,0 +1,32 @@
+Package: tmbTCSAM02
+Type: Package
+Title: A set of tools to set up input for, run, and interact with output from, tmbTCSAM02 model runs.
+Version: 2019.09.30
+Date: 2019-09-30
+Author: William T. Stockhausen
+Maintainer: William T. Stockhausen <ywilliam.stockhausen@noaa.gov>
+Description: This package provides a set of tools to set up input for,
+    and interact with output from, TCSAM02 model runs.
+License: MIT + file LICSENSE
+Depends:
+    R (>= 3.1.2)
+Requires:
+    ggplot2 (>= 1.0.0),
+    graphics (>= 3.1.2),
+    grid (>= 3.1.2),
+    reshape2 (>= 1.4.1),
+    sqldf (>= 0.4-10),
+    stats (>= 3.1.2),
+    stringr(>= 1.3.1),
+    tcltk (>= 3.1.2),
+    wtsUtilities (>= 2016.04.21)
+Imports:
+    ggplot2 (>= 1.0.0),
+    graphics (>= 3.1.2),
+    grid (>= 3.1.2),
+    reshape2 (>= 1.4.1),
+    sqldf (>= 0.4-10),
+    stats (>= 3.1.2),
+    tcltk (>= 3.1.2),
+    wtsUtilities (>= 2018.08.10)
+RoxygenNote: 6.1.1
