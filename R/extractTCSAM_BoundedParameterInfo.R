@@ -28,21 +28,23 @@ extractTCSAM_BoundedParameterInfo<-function(res,
     return(NULL);
   }
   lst[["nPVs"]]<-as.integer(res[[k]]); k<-k+1;
-  pvs<-list();
-  for (i in 1:lst[["nPVs"]]){
-    pv<-res[[k]]; k<-k+1;
-    pvs[[i]]<-list(id      =as.integer(pv[1]),
-                   jitter  =pv[2],
-                   lower   =as.numeric(pv[3]),
-                   upper   =as.numeric(pv[4]),
-                   value   =as.numeric(pv[5]),
-                   scale   =pv[6],
-                   phase   =as.integer(pv[7]),
-                   resample=pv[8],
-                   prior   =extractTCSAM_PriorInfo(pv,9),
-                   label   =pv[length(pv)]);
+  if (lst[["nPVs"]]>0){
+    pvs<-list();
+    for (i in 1:lst[["nPVs"]]){
+      pv<-res[[k]]; k<-k+1;
+      pvs[[i]]<-list(id      =as.integer(pv[1]),
+                     jitter  =pv[2],
+                     lower   =as.numeric(pv[3]),
+                     upper   =as.numeric(pv[4]),
+                     value   =as.numeric(pv[5]),
+                     scale   =pv[6],
+                     phase   =as.integer(pv[7]),
+                     resample=pv[8],
+                     prior   =extractTCSAM_PriorInfo(pv,9),
+                     label   =pv[length(pv)]);
+    }
+    lst[["pvs"]]<-pvs;
   }
-  lst[["pvs"]]<-pvs;
 
   return(list(k=k,lst=lst));
 }

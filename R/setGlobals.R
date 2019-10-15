@@ -30,13 +30,13 @@ setGlobals<-function(){
   .KV_MAP<<-KV_MAP;#make global variable
 
   DIMS<-list();   DIMNAMES<-list();
+  DIMS[["Y"]]<-0; DIMNAMES[["Y"]]<-"";                        #model years
+  DIMS[["R"]]<-1; DIMNAMES[["R"]]<-c("EBS");                  #model regions
   DIMS[["A"]]<-1; DIMNAMES[["A"]]<-c("DEFAULT");              #model age classes
   DIMS[["X"]]<-2; DIMNAMES[["X"]]<-c("MALE","FEMALE");        #sexes
   DIMS[["M"]]<-2; DIMNAMES[["M"]]<-c("IMMATURE","MATURE");    #maturity state
   DIMS[["S"]]<-2; DIMNAMES[["S"]]<-c("NEW SHELL","OLD SHELL");#shell condition
   DIMS[["Z"]]<-0; DIMNAMES[["Z"]]<-"";                        #size bins
-  DIMS[["Y"]]<-0; DIMNAMES[["Y"]]<-"";                        #model years
-  DIMS[["R"]]<-1; DIMNAMES[["R"]]<-c("EBS");                  #model regions
   .DIMS<<-DIMS;  .DIMNAMES<<-DIMNAMES;#make global variables
 
   return(NULL);

@@ -27,6 +27,7 @@ extractTCSAM_ParamInfoRecruitment<-function(res,
     warning(msg,immediate.=TRUE);
     return(NULL);
   }
+  #--extract parameter combinations
   kw<-res[[k]]; k<-k+1;
   if (kw !="PARAMETER_COMBINATIONS"){
     msg<-paste0("----Error extracting recruitment parameters info.\n",
@@ -50,6 +51,8 @@ extractTCSAM_ParamInfoRecruitment<-function(res,
                    label   =pc[10]);
   }
   lst[["pcs"]]<-pcs;
+
+  #--extract info for parameters
   kw<-res[[k]]; k<-k+1;
   if (kw !="PARAMETERS"){
     msg<-paste0("----Error extracting recruitment parameters info.\n",
@@ -57,6 +60,7 @@ extractTCSAM_ParamInfoRecruitment<-function(res,
     warning(msg,immediate.=TRUE);
     return(NULL);
   }
+  #--extract info for number parameters
   pis<-list();
   rsp<-extractTCSAM_BoundedParameterInfo(res,k,"pLnR");
   pis[["pLnR"]]<-rsp$lst; k<-rsp$k;
@@ -69,6 +73,11 @@ extractTCSAM_ParamInfoRecruitment<-function(res,
   rsp<-extractTCSAM_BoundedParameterInfo(res,k,"pRb");
   pis[["pRb"]]<-rsp$lst; k<-rsp$k;
   lst[["pis"]]<-pis;
+  #--extract info for devs parameters
+  pvs<-list();
+  rsp<-extractTCSAM_BoundedVectorInfo(res,k,"pDevsLnR");
+  pvs[["pDevsLnR"]]<-rsp$lst; k<-rsp$k;
+  lst[["pvs"]]<-pvs;
 
   return(list(k=k,lst=lst));
 }
