@@ -30,10 +30,10 @@ parseTimeBlock<-function(str,
       vec1<-strsplit(vec[i],":",fixed=TRUE)[[1]];
       if (length(vec1)>1){
         mn<-as.numeric(vec1[1]);
-        if (mn==-1) mn<-as.numeric(.DIMNAMES[["Y"]])[1];
+        if (mn==-1) mn<-as.numeric(.DIMNAMES[["y"]])[1];
         mx<-as.numeric(vec1[2]);
-        if (mx==-1) mx<-as.numeric(.DIMNAMES[["Y"]])[length(.DIMNAMES[["Y"]])];
-        if (mx==-2) mx<-as.numeric(.DIMNAMES[["Y"]])[length(.DIMNAMES[["Y"]])]+1;
+        if (mx==-1) mx<-as.numeric(.DIMNAMES[["y"]])[length(.DIMNAMES[["y"]])];
+        if (mx==-2) mx<-as.numeric(.DIMNAMES[["y"]])[length(.DIMNAMES[["y"]])]+1;
         tb<-c(tb,mn:mx);
       } else if (length(vec1)==1){
         val<-as.numeric(vec1[1]);

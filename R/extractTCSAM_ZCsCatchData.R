@@ -31,7 +31,8 @@ extractTCSAM_ZCsCatchData<-function(res,
   lst[["fit_type"]] <-res[[k]]; k<-k+1;
   lst[["like_type"]]<-res[[k]]; k<-k+1;
   lst[["like_wgt"]] <-as.numeric(res[[k]]); k<-k+1;
-  lst[["nY"]]       <-as.integer(res[[k]]); k<-k+1;
+  lst[["tc"]]       <-as.numeric(res[[k]]); k<-k+1;#--tail compression
+  lst[["nY"]]       <-as.integer(res[[k]]); k<-k+1;#--number of years of data
   lst[["units"]]    <-res[[k]]; k<-k+1;
   lst[["nZCs"]]     <-as.integer(res[[k]]); k<-k+1;
   lst[["zCs"]]      <-as.numeric(res[[k]]); k<-k+1;
@@ -44,20 +45,27 @@ extractTCSAM_ZCsCatchData<-function(res,
     fc<-res[[k]]; k<-k+1;
     for (j in 1:lst[["nY"]]){
       rw<-res[[k]]; k<-k+1;
+      us<-as.integer(rw[1]);
+      dm<-as.integer(rw[1]);
       yr<-as.integer(rw[1]);
       ss<-as.numeric(rw[2]);
       vls<-as.numeric(rw[3:length(rw)]);
+      dfr<-rbind(dfr,
+                 data.frame(x=rep(fc[1],nZBs),
+                            m=rep(fc[2],nZBs),
+                            s=rep(fc[3],nZBs),
+                            z=lst[["zBs"]],
+                            use=rep(us,nZBs),
+                            dm =rep(dm,nZBs),
+                            y  =rep(yr,nZBs),
+                            ss =rep(ss,nZBs),
+                            val=vls,
+                            stringsAsFactors=FALSE));
     }#--j
-    dfr<-rbind(dfr,
-               data.frame(x=rep(fc[1],nZBs),
-                          m=rep(fc[2],nZBs),
-                          s=rep(fc[3],nZBs),
-                          z=lst[["zBs"]],
-                          y=rep(yr,nZBs),
-                          ss=rep(ss,nZBs),
-                          val=vls,
-                          stringsAsFactors=FALSE));
   }#--i
+  dfr$x<-subUndetermined(dfr$x);
+  dfr$m<-subUndetermined(dfr$m);
+  dfr$s<-subUndetermined(dfr$s);
   lst[["data"]]<-dfr;
   return(list(k=k,lst=lst));
 }

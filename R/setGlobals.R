@@ -30,13 +30,13 @@ setGlobals<-function(){
   .KV_MAP<<-KV_MAP;#make global variable
 
   DIMS<-list();   DIMNAMES<-list();
-  DIMS[["Y"]]<-0; DIMNAMES[["Y"]]<-"";                        #model years
-  DIMS[["R"]]<-1; DIMNAMES[["R"]]<-c("EBS");                  #model regions
-  DIMS[["A"]]<-1; DIMNAMES[["A"]]<-c("DEFAULT");              #model age classes
-  DIMS[["X"]]<-2; DIMNAMES[["X"]]<-c("MALE","FEMALE");        #sexes
-  DIMS[["M"]]<-2; DIMNAMES[["M"]]<-c("IMMATURE","MATURE");    #maturity state
-  DIMS[["S"]]<-2; DIMNAMES[["S"]]<-c("NEW SHELL","OLD SHELL");#shell condition
-  DIMS[["Z"]]<-0; DIMNAMES[["Z"]]<-"";                        #size bins
+  DIMS[["y"]]<-1; DIMNAMES[["y"]]<-"UNDETERMINED";   #model years
+  DIMS[["r"]]<-1; DIMNAMES[["r"]]<-"EBS";            #model regions
+  DIMS[["a"]]<-1; DIMNAMES[["a"]]<-"UNDETERMINED";   #model age classes
+  DIMS[["x"]]<-3; DIMNAMES[["x"]]<-c("MALE",    "FEMALE",    "UNDETERMINED");#model sexes
+  DIMS[["m"]]<-3; DIMNAMES[["m"]]<-c("IMMATURE", "MATURE",   "UNDETERMINED");#model maturity state
+  DIMS[["s"]]<-3; DIMNAMES[["s"]]<-c("NEW SHELL","OLD SHELL","UNDETERMINED");#model shell conditions
+  DIMS[["z"]]<-1; DIMNAMES[["z"]]<-"UNDETERMINED";   #model size bins
   .DIMS<<-DIMS;  .DIMNAMES<<-DIMNAMES;#make global variables
 
   return(NULL);

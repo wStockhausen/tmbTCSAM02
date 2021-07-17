@@ -62,6 +62,7 @@ readTCSAM_MaturityOgiveData<-function(conn){
     prM[j]<-as.numeric(obs[5]);
   }
   dfr<-data.frame(x=rep(lst[["sex"]],length.out=nObs),y=yr,sz=sz,idx=idx,N=N,prM=prM,stringsAsFactors=FALSE);
+  dfr$x<-subUndetermined(dfr$x);
   lst[["data"]]<-dfr;
 
   return(lst)

@@ -1,0 +1,27 @@
+convertTCSAMtoTMB_Params_RecruitmentInfo<-function(tcsamRecInfo){
+  nPCs<-tcsamRecInfo$nPCs;
+  iyrs<-vector("integer",nPCs);
+  iLnR<-vector("integer",nPCs);
+  iRCV<-vector("integer",nPCs);
+  iRX<-vector("integer",nPCs);
+  iRa<-vector("integer",nPCs);
+  iRb<-vector("integer",nPCs);
+  iDevs<-vector("integer",nPCs);
+  labels<-vector("character",nPCs);
+  llWgts<-vector("numeric",nPCs);
+  for (iPC in nPCs){
+    iyrs[iPC]<-length(tcsamRecInfo[[iPC]]$tb);
+    yrs<-c(yrs,tcsamRecInfo[[iPC]]$tb);
+    iLnR[iPC]<-tcsamRecInfo[[iPC]]$pcs$pLnR;
+    iRCV[iPC]<-tcsamRecInfo[[iPC]]$pcs$pRCV;
+    iRX[iPC]<-tcsamRecInfo[[iPC]]$pcs$pLRX;
+    iRa[iPC]<-tcsamRecInfo[[iPC]]$pcs$pRa;
+    iRb[iPC]<-tcsamRecInfo[[iPC]]$pcs$pRb;
+    iDevs[iPC]<-tcsamRecInfo[[iPC]]$pcs$pDevsLnR;
+    labels[iPC]<-tcsamRecInfo[[iPC]]$pcs$label;
+    llWgts[iPC]<-tcsamRecInfo[[iPC]]$pcs$nllWgt;
+  }
+  pcInfo<-list(iyrs=iyrs,yrs=yrs,labels=labels,llWgts=llWgts,
+               indices=list(iLnR=iPC,iRCV=iRCV,iRX=iRX,iRa=iRa,iRb=iRb,iDevs=iDevs))
+  return(pcInfo);
+}

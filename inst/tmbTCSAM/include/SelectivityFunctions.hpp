@@ -1,10 +1,4 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
  * File:   SelectivityFunctions.hpp
  * Author: WilliamStockhausen
  *
@@ -14,25 +8,27 @@
 #ifndef SELECTIVITYFUNCTIONS_HPP
 #define SELECTIVITYFUNCTIONS_HPP
 
-#include <TMB.hpp>
-#include <iostream>
-#include "constants.hpp"
+#ifndef TMBTCSAM_HPP
+    #include <TMB.hpp>
+    #include <iostream>
+    #include "utils.hpp"
+#endif
 
 
 
 /**
- * Calculates ascending logistic function parameterized by 
+ * Calculates ascending logistic function parameterized by
  *      params[1]: size at 50% selected (z50)
  *      params[2]: slope
  * Inputs:
  * @param z      - vector of sizes at which to compute function values
  * @param params - vector of function parameters
  * @param fsZ    - size at which function = 1 (i.e., fully-selected size) [double]
- * 
+ *
  * @return -
  */
 template <class Type>
-vector<Type> asclogistic(vector<Type> z, vector<Type> params, Type fsZ){
+vector<Type> asclogistic(vector<Type> z, vector<Type> params, double fsZ){
     if (DEBUG) Rcout<<"Starting asclogistic(...)"<<std::endl;
     Type n = (Type)1.0;
     vector<Type> s(z);
@@ -55,18 +51,18 @@ vector<Type> asclogistic(vector<Type> z, vector<Type> params, Type fsZ){
 }
 
 /**
- * Calculates ascending logistic function parameterized by 
+ * Calculates ascending logistic function parameterized by
  *      params[1]: size at 50% selected (z50)
  *      params[2]: ln-scale increment from z50 to size at 95% selected
  * Inputs:
  * @param z      - vector of sizes at which to compute function values
  * @param params - vector of function parameters
  * @param fsZ    - size at which function = 1 (i.e., fully-selected size)
- * 
+ *
  * @return -
  */
 template <class Type>
-vector<Type> asclogistic50Ln95(vector<Type> z, vector<Type> params, Type fsZ){
+vector<Type> asclogistic50Ln95(vector<Type> z, vector<Type> params, double fsZ){
     if (DEBUG) Rcout<<"Starting SelFcns::asclogistic50Ln95(...)"<<std::endl;
     Type n;
     vector<Type> s(z);
@@ -91,18 +87,18 @@ vector<Type> asclogistic50Ln95(vector<Type> z, vector<Type> params, Type fsZ){
 }
 
 /**
- * Calculates ascending normal function parameterized by 
+ * Calculates ascending normal function parameterized by
  *      params[1]: size at which ascending limb reaches 1
  *      params[2]: width of ascending limb
  * Inputs:
  * @param z      - vector of sizes at which to compute function values
  * @param params - vector of function parameters
  * @param fsZ    - size at which function = 1 (i.e., fully-selected size) NOTE: ignored!
- * 
+ *
  * @return - selectivity function values as vector
  */
 template <class Type>
-vector<Type> ascnormal(vector<Type> z, vector<Type> params, Type fsZ){
+vector<Type> ascnormal(vector<Type> z, vector<Type> params, double fsZ){
     if (DEBUG) Rcout<<"Starting ascnormal(...)"<<std::endl;
     vector<Type> ascN(z);
     vector<Type> ascJ(z);
@@ -117,7 +113,7 @@ vector<Type> ascnormal(vector<Type> z, vector<Type> params, Type fsZ){
 }
 
 /**
- * Calculates 4-parameter normal function parameterized by 
+ * Calculates 4-parameter normal function parameterized by
  *      params[1]: size at which ascending limb reaches 1
  *      params[2]: width of ascending limb
  *      params[3]: size at which descending limb departs from 1
@@ -126,11 +122,11 @@ vector<Type> ascnormal(vector<Type> z, vector<Type> params, Type fsZ){
  * @param z      - vector of sizes at which to compute function values
  * @param params - vector of function parameters
  * @param fsZ    - size at which function = 1 (i.e., fully-selected size) NOTE: ignored!
- * 
+ *
  * @return - selectivity function values as a vector
  */
 template <class Type>
-vector<Type> dblnormal4(vector<Type> z, vector<Type> params, Type fsZ){
+vector<Type> dblnormal4(vector<Type> z, vector<Type> params, double fsZ){
     if (DEBUG) Rcout<<"Starting dblnormal4(...)"<<std::endl;
     Type slp = 5.0;
     Type ascMnZ = params(1-1);//size at which ascending limb hits 1
@@ -147,7 +143,7 @@ vector<Type> dblnormal4(vector<Type> z, vector<Type> params, Type fsZ){
 }
 
 /**
- * Calculates 6-parameter normal function parameterized by 
+ * Calculates 6-parameter normal function parameterized by
  *      params[1]: size at which ascending limb reaches 1
  *      params[2]: width of ascending limb
  *      params[3]: size at which descending limb departs from 1
@@ -158,11 +154,11 @@ vector<Type> dblnormal4(vector<Type> z, vector<Type> params, Type fsZ){
  * @param z      - vector of sizes at which to compute function values
  * @param params - vector of function parameters
  * @param fsZ    - size at which function = 1 (i.e., fully-selected size) NOTE: ignored!
- * 
+ *
  * @return - selectivity function values as dvar_vector
  */
 template <class Type>
-vector<Type> dblnormal6(vector<Type> z, vector<Type> params, Type fsZ){
+vector<Type> dblnormal6(vector<Type> z, vector<Type> params, double fsZ){
     if (DEBUG) Rcout<<"Starting dblnormal6(...)"<<std::endl;
     Type slp = 5.0;
     Type ascMnZ = params(1-1);//size at which ascending limb hits 1
@@ -184,7 +180,7 @@ vector<Type> dblnormal6(vector<Type> z, vector<Type> params, Type fsZ){
  * Calculates "constant" selectivity function (=1 at all sizes)
  * Inputs:
  * @param z - vector of sizes at which to compute function values
- * 
+ *
  * @return - selectivity function values as vector
  */
 template <class Type>
@@ -194,7 +190,7 @@ vector<Type> constant(vector<Type> z){
     s = 1.0;
     if (DEBUG) Rcout<<"Finished constant(...)"<<std::endl;
     return s;
-}       
+}
 
 /**
  * Calculates "nonparametric" selectivity function with smoothness imposed
@@ -203,7 +199,7 @@ vector<Type> constant(vector<Type> z){
  * @param z      - dvector of sizes at which to compute function values
  * @param params - vector<Type> of function parameters, 1 for each size bin
  * @param idZ    - index at which function = 1 (i.e., fully-selected size) [int]
- * 
+ *
  * @return - selectivity function values as dvar_vector
  */
 template <class Type>
@@ -217,6 +213,6 @@ vector<Type> nonparametric(vector<Type> z, vector<Type> params, int idZ){
     if (params.indexmax()<z.indexmax()) s(params.indexmax()+1,z.indexmax()) = 1.0;//set upper to 1
     if (DEBUG) Rcout<<"Finished nonparametric(...)"<<std::endl;
     return s;
-}       
+}
 #endif /* SELECTIVITYFUNCTIONS_HPP */
 

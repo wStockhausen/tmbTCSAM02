@@ -38,23 +38,30 @@ extractTCSAM_AggCatchData<-function(res,
   dfr<-NULL;
   for (i in 1:lst[["nFCs"]]){
     fc<-res[[k]]; k<-k+1;
+    us<-integer(lst[["nY"]]);
     yr<-integer(lst[["nY"]]);
     vl<-numeric(lst[["nY"]]);
     cv<-numeric(lst[["nY"]]);
     for (j in 1:lst[["nY"]]){
       rw<-res[[k]]; k<-k+1;
-      yr[j]<-as.integer(rw[1]);
-      vl[j]<-as.numeric(rw[2]);
-      cv[j]<-as.numeric(rw[3]);
+      us[j]<-as.integer(rw[1]);
+      yr[j]<-as.integer(rw[2]);
+      vl[j]<-as.numeric(rw[3]);
+      cv[j]<-as.numeric(rw[4]);
     }#--j
     dfr<-rbind(dfr,
                data.frame(x=rep(fc[1],lst[["nY"]]),
                           m=rep(fc[2],lst[["nY"]]),
                           s=rep(fc[3],lst[["nY"]]),
+                          use=us,
                           y=yr,
                           val=vl,
-                          cv=cv));
+                          cv=cv,
+                          stringsAsFactors=FALSE));
   }#--i
+  dfr$x<-subUndetermined(dfr$x);
+  dfr$m<-subUndetermined(dfr$m);
+  dfr$s<-subUndetermined(dfr$s);
   lst[["data"]]<-dfr;
   return(list(k=k,lst=lst));
 }

@@ -57,6 +57,7 @@ readTCSAM_GrowthData<-function(conn){
     }
     dfr<-rbind(dfr,data.frame(x=rep(x,length.out=nObs),y=yr,pre=pre,pst=pst,stringsAsFactors=FALSE));
   }
+  dfr$x<-subUndetermined(dfr$x);
   lst[["data"]]<-dfr;
 
   return(lst)

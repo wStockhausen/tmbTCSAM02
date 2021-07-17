@@ -28,28 +28,44 @@ readTCSAM_ModelConfiguration<-function(conn,
   }
 
   #--read file
-  mc<-list();
   strv<-readLines(conn);
   res  <-wtsUtilities::parseText(strv);
-  k<-1;
+  close(conn);
+  version = res[[1]];
+  if (version=="2016.11.15") {mc = readMCI_2016_11_15(res);} else
+  if (version=="2021.04.10") {mc = readMCI_2021_04_10(res);} else
+    {stop(paste0("Model configuration",version,"not recognized\n ")); return(NULL);}
+  #--set dims info for tmbTCSAM in the global environment (using "<<-")
+  .DIMS[["y"]]<<-mc[["mxYr"]]-mc[["mnYr"]]+1; .DIMNAMES[["y"]]<<-as.character(mc[["mnYr"]]:mc[["mxYr"]]);
+  .DIMS[["z"]]<<-mc[["nZBs"]];                .DIMNAMES[["z"]]<<-as.character(mc[["zBs"]]);
+  .DIMS[["f"]]<<-mc[["nFsh"]];                .DIMNAMES[["f"]]<<-mc[["fshNames"]];
+  .DIMS[["v"]]<<-mc[["nSrv"]];                .DIMNAMES[["v"]]<<-mc[["srvNames"]];
+
+  return(mc);
+}#--readTCSAM_ModelConfiguration
+
+readMCI_2021_04_10<-function(res,verbose=TRUE){
+  if (verbose) cat("#--------Using 'readMCI_2021_04_10' to read MCI-------\n");
+  if (verbose) for (i in 1:length(res)) cat(res[[i]],"\n")
+  mc = list();
+  k = 1;
   mc[["version"]]  <-res[[k]]; k<-k+1;
-  mc[["case"]] <-res[[2]]; k<-k+1;
-  mc[["mnYr"]] <-as.integer(res[[k]]); k<-k+1;
-  mc[["mxYr"]] <-as.integer(res[[k]]); k<-k+1;
-  mc[["nZBs"]] <-as.integer(res[[k]]); k<-k+1;
-  mc[["zCs"]]  <-as.numeric(res[[k]]); k<-k+1;#size bin cutpoints
-  mc[["zBs"]]  <-(mc[["zCs"]][2:(mc[["nZBs"]]+1)]+mc[["zCs"]][1:mc[["nZBs"]]])/2.0;
-  mc[["nFsh"]] <-as.integer(res[[k]]); k<-k+1;
-  mc[["fshNames"]]<-character(mc$nFsh);
+  mc[["case"]]     <-res[[k]]; k<-k+1;
+  mc[["mnYr"]]     <-as.integer(res[[k]]); k<-k+1;
+  mc[["mxYr"]]     <-as.integer(res[[k]]); k<-k+1;   #--assessment year (final pop model numbers at size are given for July 1, assessment year)
+  mc[["mnYrOFL"]]  <-as.integer(res[[k]]); k<-k+1;   #--min year for calculating OFL-related average recruitment
+  mc[["nYrRecOffset"]]<-as.integer(res[[k]]); k<-k+1;#--offset for calculating average recruitment
+  mc[["mxZsByX"]]     <-as.numeric(res[[k]]); k<-k+1;#--max sizes, by sex
+  mc[["mxZRec"]]   <-as.numeric(res[[k]]); k<-k+1;   #--max size for recruitment distribution
+  mc[["nZBs"]]     <-as.integer(res[[k]]); k<-k+1;   #--number of size bins in the model
+  mc[["zCs"]]      <-as.numeric(res[[k]]); k<-k+1;   #--size bin cutpoints
+  mc[["zBs"]]      <-(mc[["zCs"]][2:(mc[["nZBs"]]+1)]+mc[["zCs"]][1:mc[["nZBs"]]])/2.0;
+  mc[["nFsh"]]     <-as.integer(res[[k]]); k<-k+1;   #--number of fisheries
+  mc[["fshNames"]] <-character(mc$nFsh);
   for (f in 1:mc$nFsh) {mc[["fshNames"]][f]<-res[[k]];  k<-k+1;}
-  mc[["nSrv"]] <- as.integer(res[[k]]); k<-k+1;
+  mc[["nSrv"]] <- as.integer(res[[k]]); k<-k+1;      #--number of surveys
   mc[["srvNames"]]<-character(mc$nSrv);
   for (s in 1:mc$nSrv) {mc[["srvNames"]][s]<-res[[k]];  k<-k+1;}
-  #--set dim info in the global environment (using "<<-")
-  .DIMS[["Y"]]<<-mc[["mxYr"]]-mc[["mnYr"]]; .DIMNAMES[["Y"]]<<-as.character(mc[["mnYr"]]:mc[["mxYr"]]);
-  .DIMS[["Z"]]<<-mc[["nZBs"]];              .DIMNAMES[["Z"]]<<-as.character(mc[["zBs"]]);
-  .DIMS[["F"]]<<-mc[["nFsh"]];              .DIMNAMES[["F"]]<<-mc[["fshNames"]];
-  .DIMS[["V"]]<<-mc[["nSrv"]];              .DIMNAMES[["V"]]<<-mc[["srvNames"]];
   #--
   mc[["run_OpModOnly"]]<-as.logical(res[[k]]); k<-k+1;
   mc[["fit_toPriors"]] <-as.logical(res[[k]]); k<-k+1;
@@ -60,14 +76,35 @@ readTCSAM_ModelConfiguration<-function(conn,
   mc[["jit_fac"]]      <-as.numeric(res[[k]]); k<-k+1;
   mc[["prior_resamp"]] <-subForKey(res[[k]],.KV_MAP$ON_OFF); k<-k+1;
   mc[["prior_vif"]]    <-as.numeric(res[[k]]); k<-k+1;
+  return(mc);
+}
 
-  #--read fn_datasets
-  topDir<-"./";
-  if (exists("fn")) topDir<-dirname(fn);
-  cat(paste0("--topDir = '",topDir,"'\n"));
-  datasets<-readTCSAM_Datasets(file.path(topDir,mc$fn_datasets));
-
-  close(conn);
-  return(list(mc=mc,datasets=datasets));
-}#--readTCSAM_ModelConfiguration
+readMCI_2016_11_15<-function(res){
+  mc = list();
+  k = 1;
+  mc[["version"]]  <-res[[k]]; k<-k+1;
+  mc[["case"]]     <-res[[k]]; k<-k+1;
+  mc[["mnYr"]]     <-as.integer(res[[k]]); k<-k+1;
+  mc[["mxYr"]]     <-as.integer(res[[k]]); k<-k+1;
+  mc[["nZBs"]]     <-as.integer(res[[k]]); k<-k+1;
+  mc[["zCs"]]      <-as.numeric(res[[k]]); k<-k+1;#size bin cutpoints
+  mc[["zBs"]]      <-(mc[["zCs"]][2:(mc[["nZBs"]]+1)]+mc[["zCs"]][1:mc[["nZBs"]]])/2.0;
+  mc[["nFsh"]]     <-as.integer(res[[k]]); k<-k+1;
+  mc[["fshNames"]] <-character(mc$nFsh);
+  for (f in 1:mc$nFsh) {mc[["fshNames"]][f]<-res[[k]];  k<-k+1;}
+  mc[["nSrv"]] <- as.integer(res[[k]]); k<-k+1;
+  mc[["srvNames"]]<-character(mc$nSrv);
+  for (s in 1:mc$nSrv) {mc[["srvNames"]][s]<-res[[k]];  k<-k+1;}
+  #--
+  mc[["run_OpModOnly"]]<-as.logical(res[[k]]); k<-k+1;
+  mc[["fit_toPriors"]] <-as.logical(res[[k]]); k<-k+1;
+  mc[["fn_paramsInfo"]]<-res[[k]]; k<-k+1;
+  mc[["fn_datasets"]]  <-res[[k]]; k<-k+1;
+  mc[["fn_options"]]   <-res[[k]]; k<-k+1;
+  mc[["jitter"]]       <-subForKey(res[[k]],.KV_MAP$ON_OFF); k<-k+1;
+  mc[["jit_fac"]]      <-as.numeric(res[[k]]); k<-k+1;
+  mc[["prior_resamp"]] <-subForKey(res[[k]],.KV_MAP$ON_OFF); k<-k+1;
+  mc[["prior_vif"]]    <-as.numeric(res[[k]]); k<-k+1;
+  return(mc);
+}
 

@@ -1,0 +1,41 @@
+################################################################################################
+#TCSAM02 configuration file: 20.07 with updated TCSAM02
+#  FixedAvails: BSFRF SBS data + fixed availability curves
+################################################################################################
+2021.04.10   # Model Configuration version
+21.13        # model scenario 
+1948         # model start year (pop. model start year) 
+2020         # assessment year (final pop model numbers at size are given for July 1, assessment year) 
+1981         # min year for calculating OFL-related average recruitment
+1            # offset to assessment year for calculating OFL-related average recruitment
+182.5  132.5 # max sizes, by sex (males, females)
+45           # max size for recruitment
+32           # Number of size bins in the model 
+#size bin cut pts
+24.5	29.5	34.5	39.5	44.5	49.5	54.5	59.5	64.5	69.5	74.5	79.5	84.5	89.5	94.5	99.5	104.5	109.5	114.5	119.5	124.5	129.5	134.5	139.5	144.5	149.5	154.5	159.5	164.5	169.5	174.5	179.5	184.5 
+#--FiSHERIES
+4  #number of fisheries
+TCF                          #fishery 1: retained and bycatch in directed Tanner crab fishery
+SCF                          #fishery 2: bycatch in snow crab bycatch fishery
+GF_All                       #fishery 3: bycatch in groundfish fisheries
+RKF                          #fishery 4: bycatch in Bristol Bay red king crab fishery
+#--SURVEYS
+6  #number of surveys
+NMFS_M                       #survey 1: NMFS trawl survey, males without maturity info
+NMFS_F                       #survey 2: NMFS trawl survey, females with maturity info
+SBS_NMFS_males               #survey 3:   male NMFS trawl survey results using SBS stations (not fit)
+SBS_NMFS_females             #survey 4: female NMFS trawl survey results using SBS stations (not fit)
+SBS_BSFRF_males              #survey 5:   male BSFRF trawl survey results using SBS stations
+SBS_BSFRF_females            #survey 6: female BSFRF trawl survey results using SBS stations
+#--run options
+FALSE                     	 #run operating model only
+TRUE                      	 #fit to priors
+#--input files
+M21.13.MPI.inp                                   #model parameters info file
+Datasets.2020.LN.TC_SomeDMs_SmallSSsRemoved.inp  #model datasets file
+M20.07.Options.FixedAvails.inp                   #model options file
+#--parameter initialization options
+OFF                     #jitter resampling option (leave OFF to set using command line option)
+0.6                     #jitter range
+OFF                     #prior resampling option
+1                       #prior variance inflation factor

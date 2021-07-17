@@ -14,14 +14,14 @@ GREP=grep
 NM=nm
 CCADMIN=CCadmin
 RANLIB=ranlib
-CC=clang
-CCC=clang++
-CXX=clang++
+CC=gcc
+CCC=g++
+CXX=g++
 FC=gfortran
 AS=as
 
 # Macros
-CND_PLATFORM=CLang-MacOSX
+CND_PLATFORM=GNU-MacOSX
 CND_DLIB_EXT=dylib
 CND_CONF=Debug
 CND_DISTDIR=dist
@@ -65,7 +65,7 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libtmbTCSAM.${CND_DLIB_EXT}: ${OBJECT
 ${OBJECTDIR}/src/tmbTCSAM.o: src/tmbTCSAM.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I/Library/Frameworks/R.framework/Headers -I../../../../../TMB/TMB/inst/include -Iinclude -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/tmbTCSAM.o src/tmbTCSAM.cpp
+	$(COMPILE.cc) -g -I/Library/Frameworks/R.framework/Headers -I../../../../../TMB/TMB/inst/include -Iinclude -std=c++11 -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/tmbTCSAM.o src/tmbTCSAM.cpp
 
 # Subprojects
 .build-subprojects:

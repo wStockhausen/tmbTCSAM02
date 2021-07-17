@@ -4,9 +4,12 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>include/IndexFunctions.hpp</itemPath>
+      <itemPath>include/ModelConfig.hpp</itemPath>
+      <itemPath>include/Recruitment.hpp</itemPath>
       <itemPath>include/SelectivityFunctions.hpp</itemPath>
-      <itemPath>include/constants.hpp</itemPath>
       <itemPath>include/tmbTCSAM.hpp</itemPath>
+      <itemPath>include/utils.hpp</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -33,12 +36,13 @@
   <confs>
     <conf name="Debug" type="2">
       <toolsSet>
-        <compilerSet>default</compilerSet>
+        <compilerSet>GNU|GNU</compilerSet>
         <dependencyChecking>true</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
         <ccTool>
+          <standard>8</standard>
           <incDir>
             <pElem>/Library/Frameworks/R.framework/Headers</pElem>
             <pElem>../../../../../TMB/TMB/inst/include</pElem>
@@ -46,11 +50,17 @@
           </incDir>
         </ccTool>
       </compileType>
+      <item path="include/IndexFunctions.hpp" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/ModelConfig.hpp" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/Recruitment.hpp" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/SelectivityFunctions.hpp" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="include/constants.hpp" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="include/tmbTCSAM.hpp" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/utils.hpp" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/tmbTCSAM.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -77,11 +87,17 @@
         <archiverTool>
         </archiverTool>
       </compileType>
+      <item path="include/IndexFunctions.hpp" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/ModelConfig.hpp" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/Recruitment.hpp" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/SelectivityFunctions.hpp" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="include/constants.hpp" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="include/tmbTCSAM.hpp" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/utils.hpp" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/tmbTCSAM.cpp" ex="false" tool="1" flavor2="0">
       </item>

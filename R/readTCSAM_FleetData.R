@@ -43,12 +43,12 @@ readTCSAM_FleetData<-function(conn,
   }
   lst[["fleet_type"]]<-kw;
   lst[["name"]]      <-res[[k]]; k<-k+1;
-  lst[["hasICD"]]    <-as.logical(res[[k]]); k<-k+1;
-  lst[["hasRCD"]]    <-as.logical(res[[k]]); k<-k+1;
-  lst[["hasDCD"]]    <-as.logical(res[[k]]); k<-k+1;
-  lst[["hasTCD"]]    <-as.logical(res[[k]]); k<-k+1;
-  lst[["hasEff"]]    <-as.logical(res[[k]]); k<-k+1;
-  if (lst[["hasICD"]]){
+  lst[["hasIndexCatchData"]]    <-as.logical(res[[k]]); k<-k+1;
+  lst[["hasRetainedCatchData"]] <-as.logical(res[[k]]); k<-k+1;
+  lst[["hasDiscardCatchData"]]  <-as.logical(res[[k]]); k<-k+1;
+  lst[["hasTotalCatchData"]]    <-as.logical(res[[k]]); k<-k+1;
+  lst[["hasEffortData"]]        <-as.logical(res[[k]]); k<-k+1;
+  if (lst[["hasIndexCatchData"]]){
     #--file has index catch data
     tmp1<-extractTCSAM_CatchData(res,k);
     if (is.null(tmp1)){
@@ -58,11 +58,11 @@ readTCSAM_FleetData<-function(conn,
       return(NULL);
     }
     k<-tmp1$k;
-    lst[["ICD"]]<-tmp1$lst;
+    lst[["IndexCatchData"]]<-tmp1$lst;
   }
-  if (lst[["hasRCD"]]){
+  if (lst[["hasRetainedCatchData"]]){
     #--file has retained catch data
-    tmp1<-extractTCSAM_CatchData(res,k);
+    tmp1<-extractTCSAM_CatchData(res,k,verbose=TRUE);
     if (is.null(tmp1)){
       msg<-paste0("----Error reading fleet file '",fn,"'\n",
                   "----Could not extract RETAINED CATCH DATA.\n");
@@ -70,9 +70,9 @@ readTCSAM_FleetData<-function(conn,
       return(NULL);
     }
     k<-tmp1$k;
-    lst[["RCD"]]<-tmp1$lst;
+    lst[["retainedCatchData"]]<-tmp1$lst;
   }
-  if (lst[["hasDCD"]]){
+  if (lst[["hasDiscardCatchData"]]){
     #--file has discard catch data
     tmp1<-extractTCSAM_CatchData(res,k);
     if (is.null(tmp1)){
@@ -82,9 +82,9 @@ readTCSAM_FleetData<-function(conn,
       return(NULL);
     }
     k<-tmp1$k;
-    lst[["DCD"]]<-tmp1$lst;
+    lst[["discardCatchData"]]<-tmp1$lst;
   }
-  if (lst[["hasTCD"]]){
+  if (lst[["hasTotalCatchData"]]){
     #--file has total catch data
     tmp1<-extractTCSAM_CatchData(res,k);
     if (is.null(tmp1)){
@@ -94,9 +94,9 @@ readTCSAM_FleetData<-function(conn,
       return(NULL);
     }
     k<-tmp1$k;
-    lst[["TCD"]]<-tmp1$lst;
+    lst[["totalCatchData"]]<-tmp1$lst;
   }
-  if (lst[["hasEff"]]){
+  if (lst[["hasEffortData"]]){
     #--file has catch effort data
     tmp1<-extractTCSAM_EffortData(res,k);
     if (is.null(tmp1)){
@@ -106,7 +106,7 @@ readTCSAM_FleetData<-function(conn,
       return(NULL);
     }
     k<-tmp1$k;
-    lst[["Eff"]]<-tmp1$lst;
+    lst[["effortData"]]<-tmp1$lst;
   }
 
   return(lst);
